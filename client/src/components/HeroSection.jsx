@@ -1,4 +1,6 @@
-export default function HeroSection() {
+import React from "react";
+
+const HeroSection = () => {
   return (
     <section className="px-margin-mobile md:px-margin-desktop py-section-gap flex flex-col items-center justify-center min-h-[819px] relative">
       {/* Architectural Line Motif */}
@@ -43,4 +45,6 @@ export default function HeroSection() {
       </div>
     </section>
   );
-}
+};
+
+export default HeroSection;
