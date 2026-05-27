@@ -4,8 +4,9 @@ import HeroSection from "../components/HeroSection";
 const Home = () => {
   return (
     <>
-      <HeroSection />
-      <p>I want to eat</p>
+      <div className="flex-grow">
+        <HeroSection />
+      </div>
     </>
   );
 };
