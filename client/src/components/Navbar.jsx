@@ -28,6 +28,7 @@ const Navbar = () => {
           ARA
         </Link>
 
+        {/* Desktop Links & Action Button */}
         <div className="hidden md:flex items-center gap-8">
           <NavLink to="/" className={getLinkStyles}>
             HOME
@@ -41,6 +42,13 @@ const Navbar = () => {
           <NavLink to="/cart" className={getLinkStyles}>
             CART
           </NavLink>
+
+          <Link
+            to="/signup"
+            className="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary transition-colors duration-300 ml-4"
+          >
+            GET STARTED
+          </Link>
         </div>
 
         {/* Mobile Actions */}
