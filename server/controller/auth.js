@@ -1,4 +1,5 @@
 import User from "../models/user.js";
+import generateToken from "../utils/generateToken.js";
 
 export const signup = async (req, res) => {
   try {
@@ -20,6 +21,8 @@ export const signup = async (req, res) => {
     });
 
     if (user) {
+        generateToken(res, user._id)
+
       return res.status(201).json({
         _id: user._id,
         fullName: user.fullName,
@@ -30,8 +33,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ msg: "Invalid user data" });
     }
   } catch (error) {
-    console.error(`Signup error: ${error.message}`)
-      return res.status(500).json({ msg: "Something is wrong with the server" });
-    
+    console.error(`Signup error: ${error.message}`);
+    return res.status(500).json({ msg: "Something is wrong with the server" });
   }
 };
