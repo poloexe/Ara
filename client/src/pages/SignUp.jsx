@@ -8,7 +8,6 @@ const SignUp = () => {
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 flex justify-center items-center z-0">
         <div className="w-[1px] h-full bg-primary absolute left-1/4"></div>
         <div className="w-[1px] h-full bg-primary absolute right-1/4"></div>
-        <div className="h-[1px] w-full bg-primary absolute top-1/3"></div>
       </div>
 
       <div className="w-full max-w-md z-10 bg-background relative">

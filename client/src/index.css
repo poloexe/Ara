@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:wght@400&display=swap");
 
 @theme {
   --color-background: #f9f9f9;
@@ -36,7 +35,6 @@
   --color-secondary-container: #dfe0e0;
 }
 
-/* Fix ugly browser autofill backgrounds */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
