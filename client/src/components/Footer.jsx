@@ -1,4 +1,6 @@
-export default function Footer() {
+import React from "react";
+
+const Footer = () => {
   return (
     <footer className="bg-background dark:bg-background full-width border-t border-outline dark:border-outline-variant flat no shadows transition-colors duration-200 flex flex-col md:flex-row justify-between items-start md:items-center w-full px-margin-mobile md:px-margin-desktop py-section-gap gap-gutter md:gap-0">
       <div className="font-headline-md-mobile md:font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary mb-8 md:mb-0">
@@ -37,4 +39,6 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
