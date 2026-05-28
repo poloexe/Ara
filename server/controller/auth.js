@@ -21,7 +21,7 @@ export const signup = async (req, res) => {
     });
 
     if (user) {
-        generateToken(res, user._id)
+      generateToken(res, user._id);
 
       return res.status(201).json({
         _id: user._id,
@@ -37,3 +37,43 @@ export const signup = async (req, res) => {
     return res.status(500).json({ msg: "Something is wrong with the server" });
   }
 };
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    const userExists = await User.findOne({ email });
+
+    if (!userExists) {
+      return res.status(400).json({ msg: "User does not exist" });
+    }
+
+    const isPasscorrect = await userExists.matchPassword(password);
+    if (!isPasscorrect) {
+      return res.status(401).json({ msg: "Invalid Email or Password" });
+    }
+
+    generateToken(res, userExists._id);
+
+    return res
+      .status(200)
+      .json({
+        msg: "Login Success!",
+        _id: userExists._id,
+        fullName: userExists.fullName,
+        email: userExists.email,
+      });
+  } catch (error) {
+    console.error(`Login error: ${error.message}`);
+    return res.status(500).json({ msg: "Something is wrong with the server" });
+  }
+};
+
+export const logout = async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  
+  res.status(200).json({ message: "Logged out successfully!" });
+}

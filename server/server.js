@@ -9,10 +9,6 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes)
 
-app.get("/api/health", (req, res) => {
-  res.status(200).json({ message: "Server is alive and kicking gng!!" });
-});
-
 const PORT = process.env.PORT || 6000;
 
 app.listen(PORT, async () => {
