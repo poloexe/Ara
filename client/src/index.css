@@ -31,4 +31,17 @@
   --font-nav-link: "Inter", sans-serif;
   --font-body-lg: "Source Serif 4", serif;
   --font-body-sm: "Source Serif 4", serif;
+
+  --color-on-surface-variant: #4c4546;
+  --color-secondary-container: #dfe0e0;
+}
+
+/* Fix ugly browser autofill backgrounds */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--color-background) inset !important;
+  -webkit-text-fill-color: var(--color-primary) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
