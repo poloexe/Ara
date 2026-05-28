@@ -1,7 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
+  const getLinkStyles = ({ isActive }) => {
+    const baseStyles =
+      "font-nav-link text-nav-link uppercase transition-colors hover:opacity-60 duration-200 pb-1";
+
+    return isActive
+      ? `${baseStyles} text-primary border-b border-primary`
+      : `${baseStyles} text-secondary hover:text-primary`;
+  };
+
   return (
     <nav className="bg-background dark:bg-background full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows transition-all duration-300 ease-in-out flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-gutter max-w-full sticky z-50">
       {/* Mobile Menu Toggle */}
@@ -19,30 +28,18 @@ const Navbar = () => {
       </Link>
 
       <div className="hidden md:flex items-center gap-8">
-        <Link
-          to="/"
-          className="font-nav-link text-nav-link uppercase text-primary border-b border-primary pb-1 hover:opacity-60 duration-200"
-        >
+        <NavLink to="/" className={getLinkStyles}>
           HOME
-        </Link>
-        <Link
-          to="/shop"
-          className="font-nav-link text-nav-link uppercase text-secondary hover:text-primary transition-colors hover:opacity-60 duration-200"
-        >
+        </NavLink>
+        <NavLink to="/shop" className={getLinkStyles}>
           SHOP
-        </Link>
-        <Link
-          to="/about"
-          className="font-nav-link text-nav-link uppercase text-secondary hover:text-primary transition-colors hover:opacity-60 duration-200"
-        >
+        </NavLink>
+        <NavLink to="/about" className={getLinkStyles}>
           ABOUT
-        </Link>
-        <Link
-          to="/cart"
-          className="font-nav-link text-nav-link uppercase text-secondary hover:text-primary transition-colors hover:opacity-60 duration-200"
-        >
+        </NavLink>
+        <NavLink to="/cart" className={getLinkStyles}>
           CART
-        </Link>
+        </NavLink>
       </div>
 
       {/* Mobile Actions */}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -21,12 +22,12 @@ const HeroSection = () => {
             form.
           </p>
           <div>
-            <a
+            <Link
+              to="/shop"
               className="inline-block bg-primary text-on-primary font-label-caps text-label-caps px-8 py-4 uppercase tracking-widest hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary transition-colors duration-300"
-              href="#"
             >
               SHOP NOW
-            </a>
+            </Link>
           </div>
         </div>
 
