@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/useAuthStore.js";
 import { Toaster } from "react-hot-toast";
 import Home from "./pages/Home.jsx";
@@ -39,9 +39,20 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
+
+              <Route
+                path="/cart"
+                element={authUser ? <Cart /> : <Navigate to="/login" />}
+              />
+
+              <Route
+                path="/signup"
+                element={!authUser ? <SignUp /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/login"
+                element={!authUser ? <Login /> : <Navigate to="/" />}
+              />
             </Routes>
           </main>
 

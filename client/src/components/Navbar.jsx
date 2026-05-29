@@ -1,7 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 const Navbar = () => {
+  const { authUser, logout } = useAuthStore();
+
   const getLinkStyles = ({ isActive }) => {
     const baseStyles =
       "font-nav-link text-nav-link uppercase transition-colors hover:opacity-60 duration-200 pb-1";
@@ -13,23 +16,23 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-background dark:bg-background full-width top-0 border-b border-outline dark:border-outline-variant flat no shadows transition-all duration-300 ease-in-out flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-gutter max-w-full sticky z-50">
+      <nav className="sticky top-0 z-50 flex items-center justify-between w-full transition-all duration-300 ease-in-out border-b max-w-full bg-background dark:bg-background full-width border-outline dark:border-outline-variant flat no shadows px-margin-mobile md:px-margin-desktop py-gutter">
         {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center">
-          <span className="material-symbols-outlined text-primary cursor-pointer hover:opacity-60 duration-200">
+        <div className="flex items-center md:hidden">
+          <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
             menu
           </span>
         </div>
 
         <Link
           to="/"
-          className="font-headline-md-mobile md:font-headline-md text-headline-md-mobile md:text-headline-md tracking-tighter text-primary dark:text-primary"
+          className="tracking-tighter font-headline-md-mobile md:font-headline-md text-headline-md-mobile md:text-headline-md text-primary dark:text-primary"
         >
           ARA
         </Link>
 
         {/* Desktop Links & Action Button */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center md:flex gap-8">
           <NavLink to="/" className={getLinkStyles}>
             HOME
           </NavLink>
@@ -43,24 +46,69 @@ const Navbar = () => {
             CART
           </NavLink>
 
-          <Link
-            to="/signup"
-            className="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 uppercase tracking-widest hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary transition-colors duration-300 ml-4"
-          >
-            GET STARTED
-          </Link>
+          {/* Dynamic Auth Section Added Here */}
+          {authUser ? (
+            <div className="relative flex items-center h-full ml-4 cursor-pointer group">
+              <span className="material-symbols-outlined text-primary hover:opacity-60 duration-200">
+                person
+              </span>
+              <div className="absolute right-0 invisible pt-4 transition-all duration-300 opacity-0 top-full group-hover:opacity-100 group-hover:visible z-50">
+                <div className="py-4 border shadow-xl bg-background border-primary w-48">
+                  <Link
+                    to="/account"
+                    className="block px-6 py-2 transition-colors font-label-caps text-label-caps text-secondary hover:text-primary hover:bg-surface-container-low"
+                  >
+                    MY ACCOUNT
+                  </Link>
+                  <Link
+                    to="/orders"
+                    className="block px-6 py-2 transition-colors font-label-caps text-label-caps text-secondary hover:text-primary hover:bg-surface-container-low"
+                  >
+                    ORDER HISTORY
+                  </Link>
+                  <Link
+                    to="/wishlist"
+                    className="block px-6 py-2 transition-colors font-label-caps text-label-caps text-secondary hover:text-primary hover:bg-surface-container-low"
+                  >
+                    WISHLIST
+                  </Link>
+                  <div className="my-2 border-t border-outline-variant"></div>
+                  <button
+                    onClick={logout}
+                    className="block w-full px-6 py-2 text-left uppercase transition-colors cursor-pointer font-label-caps text-label-caps text-primary hover:bg-surface-container-low"
+                  >
+                    LOG OUT
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Link
+              to="/signup"
+              className="px-6 py-3 ml-4 tracking-widest uppercase transition-colors duration-300 bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary"
+            >
+              GET STARTED
+            </Link>
+          )}
         </div>
 
         {/* Mobile Actions */}
-        <div className="md:hidden flex items-center gap-4">
-          <span className="material-symbols-outlined text-primary cursor-pointer hover:opacity-60 duration-200">
+        <div className="flex items-center md:hidden gap-4">
+          {authUser && (
+            <Link to="/account">
+              <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
+                person
+              </span>
+            </Link>
+          )}
+          <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
             shopping_bag
           </span>
         </div>
       </nav>
 
       {/* Mobile Bottom Nav */}
-      <nav className="md:hidden fixed bottom-0 w-full bg-background border-t border-outline z-50 px-margin-mobile py-gutter flex justify-between items-center">
+      <nav className="fixed bottom-0 z-50 flex items-center justify-between w-full border-t md:hidden bg-background border-outline px-margin-mobile py-gutter">
         <NavLink
           to="/"
           className={({ isActive }) =>
