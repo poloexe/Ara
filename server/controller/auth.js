@@ -55,14 +55,12 @@ export const login = async (req, res) => {
 
     generateToken(res, userExists._id);
 
-    return res
-      .status(200)
-      .json({
-        msg: "Login Success!",
-        _id: userExists._id,
-        fullName: userExists.fullName,
-        email: userExists.email,
-      });
+    return res.status(200).json({
+      msg: "Login Success!",
+      _id: userExists._id,
+      fullName: userExists.fullName,
+      email: userExists.email,
+    });
   } catch (error) {
     console.error(`Login error: ${error.message}`);
     return res.status(500).json({ msg: "Something is wrong with the server" });
@@ -74,6 +72,11 @@ export const logout = async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
-  
+
   res.status(200).json({ message: "Logged out successfully!" });
-}
+};
+
+export const getProfile = async (req, res) => {
+  
+  return res.status(200).json({ msg: "Welcome bro...vip server", user: req.user});
+};
