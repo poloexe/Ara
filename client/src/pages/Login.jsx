@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 const Login = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const { login, isLoggingIn } = useAuthStore();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(formData);
+  };
+
   return (
     <main className="flex-grow flex items-center justify-center px-margin-mobile md:px-margin-desktop py-section-gap w-full bg-background relative">
       {/* Subtle Heritage Accent */}
@@ -20,7 +29,7 @@ const Login = () => {
           </p>
         </div>
 
-        <form className="flex flex-col gap-8 w-full">
+        <form className="flex flex-col gap-8 w-full" onSubmit={handleSubmit}>
           {/* Email Field */}
           <div className="flex flex-col relative focus-within:text-on-surface-variant">
             <label
@@ -36,6 +45,10 @@ const Login = () => {
               placeholder="name@example.com"
               required
               type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
             />
           </div>
 
@@ -56,6 +69,10 @@ const Login = () => {
               placeholder="••••••••"
               required
               type="password"
+              value={formData.password}
+              onChange={(e) => {
+                setFormData({ ...formData, password: e.target.value });
+              }}
             />
             <div className="flex justify-end mt-3">
               <Link
@@ -68,10 +85,11 @@ const Login = () => {
           </div>
 
           <button
-            className="w-full bg-primary text-on-primary font-label-caps text-label-caps uppercase py-5 mt-4 hover:bg-surface-tint transition-colors duration-300 cursor-pointer"
+            className="w-full py-5 mt-4 uppercase transition-colors duration-300 cursor-pointer bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface-tint disabled:opacity-50 disabled:cursor-not-allowed"
             type="submit"
+            disabled={isLoggingIn}
           >
-            Sign In
+            {isLoggingIn ? "Signing In..." : "Sign In"}
           </button>
         </form>
 

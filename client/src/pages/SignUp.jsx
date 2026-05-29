@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore.js";
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const { signup, isSigningup } = useAuthStore();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signup(formData);
+  };
+
   return (
     <main className="flex-grow flex w-full bg-background items-center justify-center py-section-gap px-margin-mobile md:px-margin-desktop relative">
       {/* Subtle Heritage Accent */}
@@ -20,7 +34,7 @@ const SignUp = () => {
           </p>
         </div>
 
-        <form className="flex flex-col gap-8">
+        <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
           {/* Input: Full Name */}
           <div className="flex flex-col gap-2 relative focus-within:text-on-surface-variant">
             <label
@@ -35,6 +49,10 @@ const SignUp = () => {
               placeholder="Enter your full name"
               required
               type="text"
+              value={formData.fullName}
+              onChange={(e) => {
+                setFormData({ ...formData, fullName: e.target.value });
+              }}
             />
           </div>
 
@@ -52,6 +70,10 @@ const SignUp = () => {
               placeholder="Enter your email address"
               required
               type="email"
+              value={formData.email}
+              onChange={(e) => {
+                setFormData({ ...formData, email: e.target.value });
+              }}
             />
           </div>
 
@@ -69,6 +91,10 @@ const SignUp = () => {
               placeholder="Create a secure password"
               required
               type="password"
+              value={formData.password}
+              onChange={(e) => {
+                setFormData({ ...formData, password: e.target.value });
+              }}
             />
           </div>
 
@@ -86,19 +112,28 @@ const SignUp = () => {
               placeholder="Repeat your password"
               required
               type="password"
+              value={formData.confirmPassword}
+              onChange={(e) => {
+                setFormData({ ...formData, confirmPassword: e.target.value });
+              }}
             />
           </div>
 
           {/* Action Button */}
           <div className="mt-8">
             <button
-              className="w-full bg-primary text-on-primary border border-primary font-label-caps text-label-caps uppercase py-5 px-8 hover:bg-background hover:text-primary transition-colors duration-300 rounded-none cursor-pointer flex justify-center items-center gap-2"
-              type="submit"
+            className="w-full py-5 mt-4 uppercase transition-colors duration-300 cursor-pointer bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface-tint disabled:opacity-50 disabled:cursor-not-allowed"
+            type="submit"
+            disabled={isSigningup}
             >
-              <span>Create Account</span>
-              <span className="material-symbols-outlined text-sm">
-                arrow_forward
-              </span>
+              {isSigningup ? "Signing Up..." : (
+                <>
+                  <span>Create Account </span>
+                  <span className="material-symbols-outlined text-sm">
+                    arrow_forward
+                  </span>
+                </>
+              )}
             </button>
           </div>
         </form>
