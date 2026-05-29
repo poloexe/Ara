@@ -122,18 +122,11 @@ const SignUp = () => {
           {/* Action Button */}
           <div className="mt-8">
             <button
-            className="w-full py-5 mt-4 uppercase transition-colors duration-300 cursor-pointer bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface-tint disabled:opacity-50 disabled:cursor-not-allowed"
-            type="submit"
-            disabled={isSigningup}
+              className="w-full py-5 mt-4 uppercase transition-colors duration-300 cursor-pointer bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface-tint disabled:opacity-50 disabled:cursor-not-allowed"
+              type="submit"
+              disabled={isSigningup}
             >
-              {isSigningup ? "Signing Up..." : (
-                <>
-                  <span>Create Account </span>
-                  <span className="material-symbols-outlined text-sm">
-                    arrow_forward
-                  </span>
-                </>
-              )}
+              {isSigningup ? "Signing Up..." : "Create Account "}
             </button>
           </div>
         </form>

@@ -35,7 +35,7 @@ const Footer = () => {
       </div>
 
       <div className="font-label-caps text-label-caps text-secondary mt-8 md:mt-0">
-        © 2024 ARA. ALL RIGHTS RESERVED.
+        © 2026 ARA. ALL RIGHTS RESERVED.
       </div>
     </footer>
   );
