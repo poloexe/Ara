@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useProductStore } from "../store/useProductStore.js";
-import { useAuthStore } from "../store/useAuthStore.js";
+import { useAuthStore } from "../store/useAuthStore.js"; 
 
 const AdminDashboard = () => {
   const { createProduct, isLoading } = useProductStore();
@@ -12,9 +12,8 @@ const AdminDashboard = () => {
     price: "",
     category: "",
     image: "",
-    inStock: true,
+    inStock: true, 
   });
-
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -140,7 +139,7 @@ const AdminDashboard = () => {
 
               <div className="grid grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
-                  <label className="font-label-caps text-label-caps text-primary" htmlFor="price">PRICE (USD)</label>
+                  <label className="font-label-caps text-label-caps text-primary" htmlFor="price">PRICE (₦)</label>
                   <input required value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} className="w-full px-0 py-3 transition-all bg-transparent border-0 border-b rounded-none border-primary font-body-lg text-body-lg text-primary placeholder-outline focus:border-b-2 focus:border-primary focus:outline-none focus:ring-0" id="price" placeholder="0.00" type="number" min="0" />
                 </div>
                 
