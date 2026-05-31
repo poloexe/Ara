@@ -1,13 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { useProductStore } from "../store/useProductStore.js";
 
 const Shop = () => {
   const { products, getProducts, isLoading } = useProductStore();
+  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     getProducts();
   }, [getProducts]);
+
+  const categories = [
+    { id: "all", label: "ALL" },
+    { id: "outerwear", label: "OUTERWEAR" },
+    { id: "tops", label: "TOPS & TUNICS" },
+    { id: "bottoms", label: "BOTTOMS" },
+    { id: "accessories", label: "ACCESSORIES" },
+  ];
+
+  const filteredProducts =
+    activeCategory === "all"
+      ? products
+      : products.filter((product) => product.category === activeCategory);
 
   return (
     <main className="w-full flex-grow">
@@ -25,13 +39,21 @@ const Shop = () => {
 
       {/* Filter Bar */}
       <div className="flex items-center justify-between w-full py-4 border-b px-margin-mobile md:px-margin-desktop border-primary font-label-caps text-label-caps">
-        <div className="flex gap-6">
-          <button className="underline hover:underline text-primary">
-            ALL
-          </button>
-          <button className="hover:underline text-secondary">OUTERWEAR</button>
-          <button className="hover:underline text-secondary">SHIRTS</button>
-          <button className="hover:underline text-secondary">TROUSERS</button>
+        {/* Dynamic Filter Buttons */}
+        <div className="flex gap-6 overflow-x-auto no-scrollbar">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`hover:underline transition-colors whitespace-nowrap ${
+                activeCategory === cat.id
+                  ? "text-primary underline"
+                  : "text-secondary"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
         </div>
         <button className="flex items-center gap-2 transition-opacity hover:opacity-70">
           FILTER{" "}
@@ -40,17 +62,27 @@ const Shop = () => {
       </div>
 
       {/* Product Grid */}
-      <section className="w-full px-margin-mobile md:px-margin-desktop py-16 md:py-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16">
-          {products.map((product) => (
-            <ProductCard
-              key={product._id}
-              name={product.name}
-              price={`₦ ${product.price.toLocaleString()}`}
-              image={product.image}
-            />
-          ))}
-        </div>
+      <section className="w-full py-16 px-margin-mobile md:px-margin-desktop md:py-24">
+        {isLoading ? (
+          <div className="text-center font-body-lg text-secondary">
+            Loading Collection...{" "}
+          </div>
+        ) : filteredProducts.length === 0 ? (
+          <div className="text-center font-body-lg text-secondary">
+            No items found in this category.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-gutter gap-y-16">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product._id}
+                name={product.name}
+                price={`₦ ${product.price.toLocaleString()}`}
+                image={product.image}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Load More */}
