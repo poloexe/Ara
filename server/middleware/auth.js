@@ -9,20 +9,27 @@ export const protectedRoute = async (req, res, next) => {
       return res
         .status(401)
         .json({ msg: "You are unauthorized, Try Loggin in" });
-
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded.userId)
-    
-    req.user = await User.findById(decoded.userId).select("-password")
+    console.log(decoded.userId);
 
-    if(!req.user){
-      return res.status(401).json({msg: "Not authorized!! No such user"})
+    req.user = await User.findById(decoded.userId).select("-password");
+
+    if (!req.user) {
+      return res.status(401).json({ msg: "Not authorized!! No such user" });
     }
 
-    next()
+    next();
   } catch (error) {
     console.error(`Error: ${error.message}`);
     return res.status(500).json({ msg: "Not authorized - Token Failed" });
+  }
+};
+
+export const adminRoute = async (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next();
+  } else {
+    return res.status(401).json({ msg: "You are not an admin. Get out!!" });
   }
 };
