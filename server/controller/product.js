@@ -12,7 +12,6 @@ export const createProduct = async (req, res) => {
     const uploadResponse = await cloudinary.uploader.upload(image, {
       folder: "ara_products",
     });
-    console.log("Uploaded image ", uploadResponse);
 
     const product = new Product({
       name,
@@ -27,7 +26,7 @@ export const createProduct = async (req, res) => {
     res.status(201).json(createdProduct);
   } catch (error) {
     console.error(`Error creating product: ${error.message}`);
-    res.status(500).json({ msg: "Ouu! Might be us" });
+    res.status(500).json({ msg: "Oops! We couldn't create product" });
   }
 };
 
@@ -35,13 +34,9 @@ export const getProducts = async (req, res) => {
   try {
     const products = await Product.find({});
 
-    if (!products) {
-      res.status(400).json({ msg: "You gats no products bro" });
-    }
-
     res.status(200).json(products);
   } catch (error) {
     console.error(`Error fetching products: ${error.message}`);
-    res.status(500).json({ msg: "Ouu! Might be us" });
+    res.status(500).json({ msg: "Oops we couldn't fetch product" });
   }
 };

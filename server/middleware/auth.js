@@ -11,7 +11,6 @@ export const protectedRoute = async (req, res, next) => {
         .json({ msg: "You are unauthorized, Try Loggin in" });
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded.userId);
 
     req.user = await User.findById(decoded.userId).select("-password");
 
