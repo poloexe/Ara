@@ -10,6 +10,7 @@ import About from "./pages/About.jsx";
 import Cart from "./pages/Cart.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -52,6 +53,10 @@ function App() {
               <Route
                 path="/login"
                 element={!authUser ? <Login /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/admin"
+                element={authUser?.isAdmin ? <AdminDashboard /> : <Navigate to="/" />}
               />
             </Routes>
           </main>
