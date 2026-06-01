@@ -22,7 +22,19 @@ const userSchema = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-    }
+    },
+    cartItems: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
   },
   {
     timestamps: true,
@@ -39,7 +51,7 @@ userSchema.pre("save", async function () {
 });
 
 // For Login
-userSchema.methods.matchPassword = async function(enteredPassword) {
+userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 

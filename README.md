@@ -10,12 +10,9 @@ Well this is the repository that powers the entire ARA shopping experience. ever
 - **Image Management**: Seamless image uploads and previews.
 - **Tech Stack**: Built with love using React, Tailwind, nodejs, express, and MongoDB.
 
-## 🛠️ Getting Started
-To get the project up and running locally:
+## 🛠️ How do I start?
 
-1. Clone the repository.
-2. Install the dependencies using `pnpm install`.
-3. Set up your `.env` variables (Database URI, Cloudinary keys, etc.).
-4. Start the development server and enjoy!
-
-Well that's all I guess..
+1. Clone the repo, obviouslyy.
+2. You can install dependencies using `pnpm install`.
+3. Set up the `.env` variables (Database URI, Cloudinary keys, etc.).
+4. Start the development server and walaah!!
