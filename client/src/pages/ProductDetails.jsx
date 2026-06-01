@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
+import { useCartStore } from "../store/useCartStore.js";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { productDetails, getProductById, products, getProducts, isLoading } =
     useProductStore();
+
+  const { addToCart } = useCartStore();
 
   const [selectedSize, setSelectedSize] = useState("M");
 
@@ -42,7 +45,7 @@ const ProductDetails = () => {
             />
           </div>
         </div>
-        
+
         {/* Product Details (Right) */}
         <div className="flex flex-col pt-8 md:col-span-4 md:col-start-9 md:pt-0 sticky top-32 h-fit">
           <h1 className="mb-4 font-bold tracking-tighter uppercase font-headline-md-mobile md:font-headline-md text-headline-md-mobile md:text-headline-md text-primary">
@@ -103,6 +106,7 @@ const ProductDetails = () => {
           <button
             disabled={!productDetails.inStock}
             className="w-full px-8 py-3 mb-8 text-center transition-colors duration-300 border cursor-pointer border-primary font-label-caps text-label-caps bg-primary text-on-primary hover:bg-surface hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => addToCart(productDetails._id)}
           >
             {productDetails.inStock ? "ADD TO CART" : "OUT OF STOCK"}
           </button>
