@@ -106,7 +106,7 @@ const ProductDetails = () => {
           <button
             disabled={!productDetails.inStock}
             className="w-full px-8 py-3 mb-8 text-center transition-colors duration-300 border cursor-pointer border-primary font-label-caps text-label-caps bg-primary text-on-primary hover:bg-surface hover:text-primary disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => addToCart(productDetails._id)}
+            onClick={() => addToCart(productDetails._id, selectedSize)}
           >
             {productDetails.inStock ? "ADD TO CART" : "OUT OF STOCK"}
           </button>

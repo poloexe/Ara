@@ -15,12 +15,12 @@ export const useCartStore = create((set) => ({
     }
   },
 
-  addToCart: async (productId) => {
+  addToCart: async (productId, size) => {
     try {
-      const res = await axiosInstance.post("/cart", { productId });
+      const res = await axiosInstance.post("/cart", { productId, size });
 
       set({ cart: res.data });
-      toast.success("Added to cart");
+      toast.success(`Added size ${size} to cart`);
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to add Item");
     }

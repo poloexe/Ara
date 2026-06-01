@@ -16,17 +16,17 @@ export const getCartProducts = async (req, res) => {
 
 export const addToCart = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId, size } = req.body;
     const user = await User.findById(req.user._id);
 
     const existingItem = user.cartItems.find(
-      (item) => item.product.toString() === productId,
+      (item) => item.product.toString() === productId && item.size === size,
     );
 
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
-      user.cartItems.push({ product: productId });
+      user.cartItems.push({ product: productId, size});
     }
 
     await user.save();
@@ -45,13 +45,17 @@ export const removeFromCart = async (req, res) => {
     if (!productId) {
       user.cartItems = [];
     } else {
-      user.cartItems = user.cartItems.filter((item) => item.product.toString() !== productId);
+      user.cartItems = user.cartItems.filter(
+        (item) => item.product.toString() !== productId,
+      );
     }
 
     await user.save();
     return res.status(200).json(user.cartItems);
   } catch (error) {
     console.error(`Error removing your item(s): ${error.message}`);
-    return res.status(500).json({ msg: "Oops! We couldn't remove your item(s)" });
+    return res
+      .status(500)
+      .json({ msg: "Oops! We couldn't remove your item(s)" });
   }
 };
