@@ -1,18 +1,21 @@
-const ProductCard = ({ name, price, image }) => {
+import React from "react";
+import { Link } from "react-router-dom";
+
+const ProductCard = ({ id, name, price, image }) => {
   return (
-    <div className="group cursor-pointer flex flex-col gap-4">
-      <div className="w-full aspect-[3/4] bg-surface-container relative overflow-hidden">
+    <Link to={`/shop/${id}`} className="flex flex-col gap-4 cursor-pointer group">
+      <div className="relative w-full overflow-hidden aspect-[3/4] bg-surface-container">
         <img
           alt={name}
-          className="w-full h-full object-cover mix-blend-multiply grayscale contrast-125 transition-transform duration-700 group-hover:scale-105"
+          className="object-cover w-full h-full transition-transform duration-700 grayscale contrast-125 mix-blend-multiply group-hover:scale-105"
           src={image}
         />
       </div>
-      <div className="flex justify-between items-start font-label-caps text-label-caps text-primary">
+      <div className="flex items-start justify-between font-label-caps text-label-caps text-primary">
         <h3>{name}</h3>
         <span>{price}</span>
       </div>
-    </div>
+    </Link>
   );
 };
 

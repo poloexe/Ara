@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 export const useProductStore = create((set) => ({
   products: [],
   isLoading: false,
+  productDetails: null,
 
   createProduct: async (productData) => {
     set({ isLoading: true });
@@ -33,4 +34,17 @@ export const useProductStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
+  getProductById: async (id) => {
+   set({isLoading: true})
+
+    try {
+      const res = await axiosInstance.get(`/products/${id}`);
+      set({productDetails: res.data})
+    } catch (error) {
+      toast.error("Failed to load product details");
+    } finally{
+      set({isLoading: false})
+    }
+  }
 }));

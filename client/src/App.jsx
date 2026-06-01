@@ -11,6 +11,7 @@ import Cart from "./pages/Cart.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Login from "./pages/Login.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
+import ProductDetails from "./pages/ProductDetails.jsx";
 
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
@@ -39,6 +40,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/:id" element={<ProductDetails />} />
               <Route path="/about" element={<About />} />
 
               <Route
