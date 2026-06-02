@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { useCartStore } from "../store/useCartStore.js";
@@ -6,6 +6,7 @@ import { useCartStore } from "../store/useCartStore.js";
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
   const { cart, clearCart, getCart } = useCartStore();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const cartItemCount = cart.length;
 
@@ -34,7 +35,10 @@ const Navbar = () => {
       <nav className="sticky top-0 z-50 flex items-center justify-between w-full transition-all duration-300 ease-in-out border-b max-w-full bg-background dark:bg-background full-width border-outline dark:border-outline-variant flat no shadows px-margin-mobile md:px-margin-desktop py-gutter">
         {/* Mobile Menu Toggle */}
         <div className="flex items-center md:hidden">
-          <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
+          <span 
+            className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
             menu
           </span>
         </div>
@@ -185,6 +189,92 @@ const Navbar = () => {
           <span className="font-label-caps text-[10px]">CART</span>
         </NavLink>
       </nav>
+
+      {/* Mobile Sidebar Overlay */}
+      <div
+        className={`fixed inset-0 z-[60] flex md:hidden transition-opacity duration-300 ${
+          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black/50"
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+
+        {/* Sidebar */}
+        <div
+          className={`absolute top-0 left-0 w-64 h-full bg-background border-r border-outline transform transition-transform duration-300 ${
+            isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          } flex flex-col py-gutter px-margin-mobile`}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <Link
+              to="/"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="tracking-tighter font-headline-md-mobile text-primary"
+            >
+              ARA
+            </Link>
+            <span
+              className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              close
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-6">
+            <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+              HOME
+            </NavLink>
+            <NavLink to="/shop" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+              SHOP
+            </NavLink>
+            <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+              ABOUT
+            </NavLink>
+
+            <div className="my-2 border-t border-outline-variant"></div>
+
+            {authUser ? (
+              <>
+                <NavLink to="/account" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+                  MY ACCOUNT
+                </NavLink>
+                <NavLink to="/orders" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+                  ORDER HISTORY
+                </NavLink>
+                <NavLink to="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+                  WISHLIST
+                </NavLink>
+                {authUser?.isAdmin && (
+                  <NavLink to="/admin" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
+                    ADMIN
+                  </NavLink>
+                )}
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-left font-nav-link text-nav-link uppercase transition-colors hover:opacity-60 duration-200 pb-1 text-secondary hover:text-primary"
+                >
+                  LOG OUT
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/signup"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-center px-6 py-3 tracking-widest uppercase transition-colors duration-300 bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary"
+              >
+                GET STARTED
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
