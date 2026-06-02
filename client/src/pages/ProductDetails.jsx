@@ -22,7 +22,7 @@ const ProductDetails = () => {
   if (isLoading || !productDetails) {
     return (
       <div className="flex items-center justify-center min-h-screen text-primary font-body-lg">
-        Loading editorial...
+        Cooking...
       </div>
     );
   }
