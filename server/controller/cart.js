@@ -26,7 +26,7 @@ export const addToCart = async (req, res) => {
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
-      user.cartItems.push({ product: productId, size});
+      user.cartItems.push({ product: productId, size });
     }
 
     await user.save();
@@ -39,14 +39,14 @@ export const addToCart = async (req, res) => {
 
 export const removeFromCart = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId, size } = req.body;
     const user = await User.findById(req.user._id);
 
     if (!productId) {
       user.cartItems = [];
     } else {
       user.cartItems = user.cartItems.filter(
-        (item) => item.product.toString() !== productId,
+        (item) => !(item.product.toString() === productId && item.size === size),
       );
     }
 
@@ -57,5 +57,32 @@ export const removeFromCart = async (req, res) => {
     return res
       .status(500)
       .json({ msg: "Oops! We couldn't remove your item(s)" });
+  }
+};
+
+export const updateQuantity = async (req, res) => {
+  try {
+    const { productId, size, action } = req.body;
+    const user = await User.findById(req.user._id);
+
+    const existingItem = user.cartItems.find(
+      (item) => item.product.toString() === productId && item.size === size,
+    );
+
+    if (existingItem) {
+      if (action === "decrease" && existingItem.quantity > 1) {
+        existingItem.quantity -= 1;
+      } else if (action === "decrease" && existingItem.quantity === 1) {
+        user.cartItems = user.cartItems.filter(
+          (item) =>
+            !(item.product.toString() === productId && item.size === size),
+        );
+      }
+    }
+
+    await user.save();
+    res.status(200).json(user.cartItems);
+  } catch (error) {
+    res.status(500).json({ msg: "Failed to update quantity" });
   }
 };

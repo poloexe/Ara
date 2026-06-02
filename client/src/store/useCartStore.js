@@ -24,16 +24,25 @@ export const useCartStore = create((set) => ({
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to add Item");
     }
+  },
 
-    removeFromCart: async (productId) => {
-      try {
-        const res = await axiosInstance.delete("/cart", productId);
+  removeFromCart: async (productId, size) => {
+    try {
+      const res = await axiosInstance.delete("/cart", { data: { productId, size } });
 
-        set({ cart: res.data });
-        toast.success(`Item removed from your bag`);
-      } catch (error) {
-        toast.error(error.response?.data?.msg || "Failed to remove Item");
-      }
-    };
+      set({ cart: res.data });
+      toast.success(`Item removed from your bag`);
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Failed to remove Item");
+    }
+  },
+
+  updateQuantity: async (productId, size, action) => {
+    try {
+      const res = await axiosInstance.put("/cart", { productId, size, action });
+      set({ cart: res.data });
+    } catch (error) {
+      toast.error(error.response?.data?.msg || "Failed to update quantity");
+    }
   },
 }));

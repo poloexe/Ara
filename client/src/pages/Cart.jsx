@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useCartStore } from "../store/useCartStore.js";
 
 const Cart = () => {
-  const { cart, getCart, removeFromCart, addToCart } = useCartStore();
+  const { cart, getCart, removeFromCart, addToCart, updateQuantity } = useCartStore();
 
   useEffect(() => {
     getCart();
@@ -36,7 +36,7 @@ const Cart = () => {
             
             return (
               <article
-              key={item._id}
+              key={`${item.product._id}-${item.size}`}
               className="flex flex-col sm:flex-row py-8 border-b border-primary gap-8 items-start relative group"
             >
               <div className="w-full sm:w-32 aspect-[3/4] bg-surface-container flex-shrink-0 relative overflow-hidden">
@@ -58,7 +58,7 @@ const Cart = () => {
                     </p>
                   </div>
                   <button 
-                    onClick={() => removeFromCart(item.product._id)}
+                    onClick={() => removeFromCart(item.product._id, item.size)}
                     className="text-secondary hover:text-primary transition-colors hidden sm:block"
                   >
                     <span className="material-symbols-outlined text-[20px]">
@@ -72,6 +72,7 @@ const Cart = () => {
                   <div className="flex items-center border border-primary h-8">
                     <button
                       aria-label="Decrease quantity"
+                      onClick={() => updateQuantity(item.product._id, item.size, "decrease")}
                       className="w-8 h-full flex items-center justify-center border-r border-primary hover:bg-primary hover:text-on-primary transition-colors text-primary font-nav-link text-nav-link leading-none cursor-pointer"
                     >
                       -
@@ -94,7 +95,7 @@ const Cart = () => {
 
                 {/* Mobile Remove */}
                 <button 
-                  onClick={() => removeFromCart(item.product._id)}
+                  onClick={() => removeFromCart(item.product._id, item.size)}
                   className="font-label-caps text-label-caps text-secondary underline mt-4 sm:hidden self-start"
                 >
                   REMOVE
@@ -143,7 +144,7 @@ const Cart = () => {
               PROCEED TO CHECKOUT
             </button>
             <p className="font-label-caps text-label-caps text-secondary text-center mt-4">
-              COMPLIMENTARY GLOBAL SHIPPING ON ORDERS OVER $500
+              COMPLIMENTARY GLOBAL SHIPPING ON ORDERS OVER ₦ 200,000
             </p>
           </div>
         </aside>
