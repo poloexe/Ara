@@ -4,11 +4,10 @@ Welcome to **ARA**, a modern, sleek e-commerce platform for our exclusive clothi
 
 Well this is the repository that powers the entire ARA shopping experience. every page, features and clicks
 
-## 🚀 Features
-- **Interactive Storefront**: Beautiful, responsive UI for customers to explore clothing pieces.
-- **Admin Dashboard**: Easy-to-use management system for adding new products, tracking inventory, and organizing collections.
-- **Image Management**: Seamless image uploads and previews.
-- **Tech Stack**: Built with love using React, Tailwind, nodejs, express, and MongoDB.
+## 🚀 Implemented Features
+- **Interactive Storefront**
+- **Admin Dashboard**
+- **Image Management**
 
 ## 🛠️ How do I start?
 
