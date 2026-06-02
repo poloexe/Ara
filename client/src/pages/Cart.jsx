@@ -1,42 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useCartStore } from "../store/useCartStore.js";
 
 const Cart = () => {
-  // random cart lol..anyways
-  const cartItems = [
-    {
-      id: 1,
-      name: "SCULPTURAL TUNIC",
-      color: "OBSIDIAN",
-      size: "M",
-      price: 450,
-      quantity: 1,
-      image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuB2VBy5bsgGGaCmpuAB7JTD8dWs-z96PLXCM-Zd4uUZw17P1tsAa76-Hu8dfXSwXSnUO-A4Fx0Q2iYMgIIqRQT74Lhe6b97YaMmK1nLHGsombDrmSr4ki_HYXPx6JkEQV4rntfNxP46Kt7p4z8JyUTBnG4VbjMgjU-4YxVemF2nKKChWiyHsKuhoTcCGL8YMZiYaQLFyncJx0044BwJR_T3Xo-_tlUVS-AGzxC9te24NMG8S2b8otgmfO27fq8O1u1W5YEcOMFPBlE",
-    },
-    {
-      id: 2,
-      name: "GEOMETRIC WEAVE TROUSER",
-      color: "CHALK",
-      size: "32",
-      price: 320,
-      quantity: 2,
-      image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuDRGilYQ5JDJT98Iv_weiec9yQWUy3k7cJxbkfJSI6i83pD2HoJ3LhULwEpsDDGMsBzVsVbeejwPTW9gAvXWEcEjjkF4MvcxrffNS8vJ6xA_9wpkvXFg3iEqon5RADM2BMnORAXIKGiAcSVA-3pcPA8GYz5JgXNVILKYCXlKDkQb7jStU0_Jx0hWQkit7l6hzDXmVwXjzWi8SSJIZ024VZHMCm_5WpZB8dq-D9Ek3LePNh4fyZ6F7BZJBnKuynPepeuco_L-1btiZw",
-    },
-  ];
+  const { cart, getCart, removeFromCart, addToCart } = useCartStore();
 
-  // Quick helper to calculate totals
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
+  useEffect(() => {
+    getCart();
+  }, [getCart]);
+
+  const subtotal = cart.reduce((acc, item) => {
+    if (!item.product) return acc;
+    return acc + item.product.price * item.quantity;
+  }, 0);
 
   return (
     <main className="flex-grow flex flex-col px-margin-mobile md:px-margin-desktop py-section-gap w-full max-w-[1600px] mx-auto">
       <header className="mb-16 md:mb-32 flex justify-between items-end">
         <h1 className="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary uppercase">
-          BAG [{cartItems.length}]
+          BAG [{cart.length}]
         </h1>
         <Link
           to="/shop"
@@ -49,16 +31,19 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-16 xl:gap-x-32 gap-y-16 items-start">
         {/* Cart Items List (Left Column) */}
         <div className="lg:col-span-8 flex flex-col w-full border-t border-primary">
-          {cartItems.map((item) => (
-            <article
-              key={item.id}
+          {cart.map((item) => {
+            if (!item.product) return null;
+            
+            return (
+              <article
+              key={item._id}
               className="flex flex-col sm:flex-row py-8 border-b border-primary gap-8 items-start relative group"
             >
               <div className="w-full sm:w-32 aspect-[3/4] bg-surface-container flex-shrink-0 relative overflow-hidden">
                 <img
-                  alt={item.name}
+                  alt={item.product.name}
                   className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-in-out"
-                  src={item.image}
+                  src={item.product.image}
                 />
               </div>
 
@@ -66,16 +51,16 @@ const Cart = () => {
                 <div className="flex justify-between items-start w-full">
                   <div>
                     <h2 className="font-headline-md-mobile text-headline-md-mobile md:font-headline-md md:text-headline-md text-primary uppercase leading-none mb-2">
-                      {item.name}
+                      {item.product.name}
                     </h2>
-                    <p className="font-label-caps text-label-caps text-secondary mb-1">
-                      COLOR: {item.color}
-                    </p>
                     <p className="font-label-caps text-label-caps text-secondary">
                       SIZE: {item.size}
                     </p>
                   </div>
-                  <button className="text-secondary hover:text-primary transition-colors hidden sm:block">
+                  <button 
+                    onClick={() => removeFromCart(item.product._id)}
+                    className="text-secondary hover:text-primary transition-colors hidden sm:block"
+                  >
                     <span className="material-symbols-outlined text-[20px]">
                       close
                     </span>
@@ -96,23 +81,27 @@ const Cart = () => {
                     </span>
                     <button
                       aria-label="Increase quantity"
+                      onClick={() => addToCart(item.product._id, item.size)}
                       className="w-8 h-full flex items-center justify-center border-l border-primary hover:bg-primary hover:text-on-primary transition-colors text-primary font-nav-link text-nav-link leading-none cursor-pointer"
                     >
                       +
                     </button>
                   </div>
                   <p className="font-nav-link text-nav-link text-primary uppercase">
-                    USD ${item.price * item.quantity}
+                    ₦ {(item.product.price * item.quantity).toLocaleString()}
                   </p>
                 </div>
 
                 {/* Mobile Remove */}
-                <button className="font-label-caps text-label-caps text-secondary underline mt-4 sm:hidden self-start">
+                <button 
+                  onClick={() => removeFromCart(item.product._id)}
+                  className="font-label-caps text-label-caps text-secondary underline mt-4 sm:hidden self-start"
+                >
                   REMOVE
                 </button>
               </div>
             </article>
-          ))}
+          )})}
         </div>
 
         {/* Order Summary (Right Column) */}
@@ -128,7 +117,7 @@ const Cart = () => {
                   SUBTOTAL
                 </span>
                 <span className="font-nav-link text-nav-link text-primary">
-                  USD ${subtotal}
+                  ₦ {subtotal.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center w-full">
@@ -146,7 +135,7 @@ const Cart = () => {
                 TOTAL
               </span>
               <span className="font-headline-md-mobile text-headline-md-mobile text-primary">
-                USD ${subtotal}
+                ₦ {subtotal.toLocaleString()}
               </span>
             </div>
 

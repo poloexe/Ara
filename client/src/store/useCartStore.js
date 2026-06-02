@@ -24,5 +24,16 @@ export const useCartStore = create((set) => ({
     } catch (error) {
       toast.error(error.response?.data?.msg || "Failed to add Item");
     }
+
+    removeFromCart: async (productId) => {
+      try {
+        const res = await axiosInstance.delete("/cart", productId);
+
+        set({ cart: res.data });
+        toast.success(`Item removed from your bag`);
+      } catch (error) {
+        toast.error(error.response?.data?.msg || "Failed to remove Item");
+      }
+    };
   },
 }));
