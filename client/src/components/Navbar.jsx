@@ -115,25 +115,20 @@ const Navbar = () => {
 
         {/* Mobile Actions */}
         <div className="flex items-center gap-4 md:hidden">
-          {authUser && (
+          {authUser ? (
             <Link to="/account">
               <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
                 person
               </span>
             </Link>
+          ) : (
+            <Link
+              to="/signup"
+              className="font-label-caps text-[10px] tracking-widest uppercase px-3 py-1.5 transition-colors duration-300 bg-primary text-on-primary hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary"
+            >
+              GET STARTED
+            </Link>
           )}
-
-          {/* Mobile Top Nav Cart Icon */}
-          <Link to="/cart" className="relative flex items-center">
-            <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
-              shopping_bag
-            </span>
-            {cartItemCount > 0 && (
-              <span className="absolute flex items-center justify-center w-4 h-4 rounded-full -top-1 -right-1 bg-primary text-on-primary text-[9px] font-bold">
-                {cartItemCount}
-              </span>
-            )}
-          </Link>
         </div>
       </nav>
 
@@ -225,18 +220,6 @@ const Navbar = () => {
           </div>
 
           <div className="flex flex-col gap-6">
-            <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
-              HOME
-            </NavLink>
-            <NavLink to="/shop" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
-              SHOP
-            </NavLink>
-            <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
-              ABOUT
-            </NavLink>
-
-            <div className="my-2 border-t border-outline-variant"></div>
-
             {authUser ? (
               <>
                 <NavLink to="/account" onClick={() => setIsMobileMenuOpen(false)} className={getLinkStyles}>
@@ -264,13 +247,18 @@ const Navbar = () => {
                 </button>
               </>
             ) : (
-              <Link
-                to="/signup"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-center px-6 py-3 tracking-widest uppercase transition-colors duration-300 bg-primary text-on-primary font-label-caps text-label-caps hover:bg-surface hover:text-primary hover:outline hover:outline-1 hover:outline-primary"
-              >
-                GET STARTED
-              </Link>
+              <div className="flex flex-col items-start gap-4 mt-2">
+                <p className="font-body-md text-body-md text-secondary">
+                  Nothing to see here.
+                </p>
+                <Link
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="inline-block font-label-caps text-label-caps text-primary underline hover:opacity-60 transition-opacity uppercase"
+                >
+                  LOGIN
+                </Link>
+              </div>
             )}
           </div>
         </div>

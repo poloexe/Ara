@@ -19,7 +19,7 @@ const SignUp = () => {
   return (
     <main className="flex-grow flex w-full bg-background items-center justify-center py-section-gap px-margin-mobile md:px-margin-desktop relative">
       {/* Subtle Heritage Accent */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 flex justify-center items-center z-0">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 hidden md:flex justify-center items-center z-0">
         <div className="w-[1px] h-full bg-primary absolute left-1/4"></div>
         <div className="w-[1px] h-full bg-primary absolute right-1/4"></div>
       </div>
