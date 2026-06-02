@@ -55,7 +55,7 @@ const Shop = () => {
             </button>
           ))}
         </div>
-        <button className="flex items-center gap-2 transition-opacity hover:opacity-70">
+        <button className="flex items-center gap-2 flex-shrink-0 ml-4 transition-opacity hover:opacity-70">
           FILTER{" "}
           <span className="text-[16px] material-symbols-outlined">tune</span>
         </button>

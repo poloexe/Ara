@@ -6,6 +6,7 @@ const AdminDashboard = () => {
   const { createProduct, isLoading } = useProductStore();
   const { logout } = useAuthStore();
   
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -40,13 +41,13 @@ const AdminDashboard = () => {
       {/* Mobile Top Navigation */}
       <nav className="fixed top-0 z-40 flex items-center justify-between w-full border-b md:hidden px-margin-mobile py-unit border-outline bg-background">
         <div className="tracking-tighter font-display-lg-mobile text-display-lg-mobile text-primary">ARA</div>
-        <button className="p-2 text-primary">
-          <span className="text-3xl material-symbols-outlined">menu</span>
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="p-2 text-primary cursor-pointer">
+          <span className="text-3xl material-symbols-outlined">{isMobileMenuOpen ? "close" : "menu"}</span>
         </button>
       </nav>
 
-      {/* SideNavBar (Desktop) */}
-      <nav className="fixed top-0 left-0 z-50 flex-col justify-between hidden h-screen border-r w-64 md:flex border-outline dark:border-outline-variant bg-background py-section-gap">
+      {/* SideNavBar (Desktop + Mobile) */}
+      <nav className={`fixed top-0 left-0 z-30 md:z-50 flex-col justify-between h-screen border-r w-64 md:flex border-outline dark:border-outline-variant bg-background pt-24 pb-section-gap md:py-section-gap transition-transform duration-300 md:translate-x-0 flex ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div>
           <div className="px-6 mb-12">
             <h1 className="tracking-tighter font-display-lg text-headline-md text-primary">ADMIN</h1>
@@ -137,7 +138,7 @@ const AdminDashboard = () => {
                 <input required value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} className="w-full px-0 py-3 transition-all bg-transparent border-0 border-b rounded-none border-primary font-body-lg text-body-lg text-primary placeholder-outline focus:border-b-2 focus:border-primary focus:outline-none focus:ring-0" id="product_name" placeholder="e.g. Asymmetric Wool Tunic" type="text" />
               </div>
 
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2">
                   <label className="font-label-caps text-label-caps text-primary" htmlFor="price">PRICE (₦)</label>
                   <input required value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} className="w-full px-0 py-3 transition-all bg-transparent border-0 border-b rounded-none border-primary font-body-lg text-body-lg text-primary placeholder-outline focus:border-b-2 focus:border-primary focus:outline-none focus:ring-0" id="price" placeholder="0.00" type="number" min="0" />

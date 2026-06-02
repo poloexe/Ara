@@ -37,9 +37,9 @@ const Cart = () => {
             return (
               <article
               key={`${item.product._id}-${item.size}`}
-              className="flex flex-col sm:flex-row py-8 border-b border-primary gap-8 items-start relative group"
+              className="flex flex-row py-8 border-b border-primary gap-4 sm:gap-8 items-start relative group"
             >
-              <div className="w-full sm:w-32 aspect-[3/4] bg-surface-container flex-shrink-0 relative overflow-hidden">
+              <div className="w-24 sm:w-32 aspect-[3/4] bg-surface-container flex-shrink-0 relative overflow-hidden">
                 <img
                   alt={item.product.name}
                   className="absolute inset-0 w-full h-full object-cover filter grayscale opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500 ease-in-out"
@@ -61,13 +61,13 @@ const Cart = () => {
                     onClick={() => removeFromCart(item.product._id, item.size)}
                     className="text-secondary hover:text-primary transition-colors hidden sm:block"
                   >
-                    <span className="material-symbols-outlined text-[20px]">
+                    <span className="material-symbols-outlined text-[20px] cursor-pointer">
                       close
                     </span>
                   </button>
                 </div>
 
-                <div className="flex justify-between items-end w-full mt-8 sm:mt-0">
+                <div className="flex justify-between items-end w-full mt-4 sm:mt-0">
                   {/* Quantity Control */}
                   <div className="flex items-center border border-primary h-8">
                     <button

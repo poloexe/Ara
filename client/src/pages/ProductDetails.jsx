@@ -47,7 +47,7 @@ const ProductDetails = () => {
         </div>
 
         {/* Product Details (Right) */}
-        <div className="flex flex-col pt-8 md:col-span-4 md:col-start-9 md:pt-0 sticky top-32 h-fit">
+        <div className="flex flex-col pt-8 md:col-span-4 md:col-start-9 md:pt-0 md:sticky md:top-32 h-fit">
           <h1 className="mb-4 font-bold tracking-tighter uppercase font-headline-md-mobile md:font-headline-md text-headline-md-mobile md:text-headline-md text-primary">
             {productDetails.name}
           </h1>
