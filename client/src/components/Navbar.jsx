@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore.js";
+import { useCartStore } from "../store/useCartStore.js";
 
 const Navbar = () => {
   const { authUser, logout } = useAuthStore();
+  const { cart, clearCart, getCart } = useCartStore();
+
+  const cartItemCount = cart.length;
+
+  useEffect(() => {
+    if (authUser) {
+      getCart();
+    }
+  }, [authUser, getCart]);
 
   const getLinkStyles = ({ isActive }) => {
     const baseStyles =
@@ -12,6 +22,11 @@ const Navbar = () => {
     return isActive
       ? `${baseStyles} text-primary border-b border-primary`
       : `${baseStyles} text-secondary hover:text-primary`;
+  };
+
+  const handleLogout = () => {
+    clearCart();
+    logout();
   };
 
   return (
@@ -42,11 +57,13 @@ const Navbar = () => {
           <NavLink to="/about" className={getLinkStyles}>
             ABOUT
           </NavLink>
+
+          {/* Desktop Cart Link*/}
           <NavLink to="/cart" className={getLinkStyles}>
-            CART
+            CART {cartItemCount > 0 && `[${cartItemCount}]`}
           </NavLink>
 
-          {/* Dynamic Auth Section Added Here */}
+          {/* Dynamic Auth Section */}
           {authUser ? (
             <div className="relative flex items-center h-full ml-4 cursor-pointer group">
               <span className="material-symbols-outlined text-primary hover:opacity-60 duration-200">
@@ -74,7 +91,7 @@ const Navbar = () => {
                   </Link>
                   <div className="my-2 border-t border-outline-variant"></div>
                   <button
-                    onClick={logout}
+                    onClick={handleLogout}
                     className="block w-full px-6 py-2 text-left uppercase transition-colors cursor-pointer font-label-caps text-label-caps text-primary hover:bg-surface-container-low"
                   >
                     LOG OUT
@@ -93,7 +110,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Actions */}
-        <div className="flex items-center md:hidden gap-4">
+        <div className="flex items-center gap-4 md:hidden">
           {authUser && (
             <Link to="/account">
               <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
@@ -101,9 +118,18 @@ const Navbar = () => {
               </span>
             </Link>
           )}
-          <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
-            shopping_bag
-          </span>
+
+          {/* Mobile Top Nav Cart Icon */}
+          <Link to="/cart" className="relative flex items-center">
+            <span className="cursor-pointer material-symbols-outlined text-primary hover:opacity-60 duration-200">
+              shopping_bag
+            </span>
+            {cartItemCount > 0 && (
+              <span className="absolute flex items-center justify-center w-4 h-4 rounded-full -top-1 -right-1 bg-primary text-on-primary text-[9px] font-bold">
+                {cartItemCount}
+              </span>
+            )}
+          </Link>
         </div>
       </nav>
 
@@ -138,15 +164,24 @@ const Navbar = () => {
           <span className="material-symbols-outlined text-[20px]">info</span>
           <span className="font-label-caps text-[10px]">ABOUT</span>
         </NavLink>
+
+        {/* Mobile Bottom Nav Cart Icon */}
         <NavLink
           to="/cart"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 transition-colors ${isActive ? "text-primary border-t-2 border-primary pt-[2px]" : "text-secondary hover:text-primary"}`
           }
         >
-          <span className="material-symbols-outlined text-[20px]">
-            shopping_cart
-          </span>
+          <div className="relative">
+            <span className="material-symbols-outlined text-[20px]">
+              shopping_cart
+            </span>
+            {cartItemCount > 0 && (
+              <span className="absolute flex items-center justify-center w-4 h-4 rounded-full -top-1 -right-2 bg-primary text-on-primary text-[9px] font-bold">
+                {cartItemCount}
+              </span>
+            )}
+          </div>
           <span className="font-label-caps text-[10px]">CART</span>
         </NavLink>
       </nav>

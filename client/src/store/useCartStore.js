@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 export const useCartStore = create((set) => ({
   cart: [],
 
+  clearCart: () => set({ cart: [] }),
+
   getCart: async () => {
     try {
       const res = await axiosInstance.get("/cart");
